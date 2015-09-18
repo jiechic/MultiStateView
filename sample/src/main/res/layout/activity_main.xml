@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.meetme.android.multistateview.sample.MainActivity">
+    tools:context="com.jiechic.library.android.widget.sample.MainActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,7 +10,7 @@
         android:gravity="center"
         android:id="@+id/state" />
 
-    <com.meetme.android.multistateview.MultiStateView
+    <com.jiechic.library.android.widget.MultiStateView
         android:layout_below="@id/state"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,5 +25,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.meetme.android.multistateview.MultiStateView>
+    </com.jiechic.library.android.widget.MultiStateView>
 </RelativeLayout>

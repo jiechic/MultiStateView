@@ -1,12 +1,13 @@
-package com.meetme.android.multistateview.sample;
+package com.jiechic.library.android.widget.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
-import com.meetme.android.multistateview.MultiStateView;
+import com.jiechic.library.android.sample.R;
+import com.jiechic.library.android.widget.MultiStateView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -25,6 +26,12 @@ public class MainActivity extends ActionBarActivity {
 
         mStateView = (TextView) findViewById(R.id.state);
         mMultiStateView = (MultiStateView) findViewById(R.id.content);
+        mMultiStateView.setOnTapToRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setState(MultiStateView.ContentState.LOADING);
+            }
+        });
     }
 
     @Override

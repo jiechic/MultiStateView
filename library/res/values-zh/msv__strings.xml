@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_title_network">网络错误</string>
+    <string name="error_title_permission">无权访问</string>
+    <string name="error_title_unknown">未知错误</string>
+    <string name="tap_to_retry">点击重试</string>
+
+</resources>

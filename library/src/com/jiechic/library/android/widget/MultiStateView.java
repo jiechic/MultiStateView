@@ -1,4 +1,4 @@
-package com.meetme.android.multistateview;
+package com.jiechic.library.android.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.jiechic.library.BuildConfig;
+import com.jiechic.library.R;
 
 import java.util.Locale;
 
@@ -30,6 +32,7 @@ public class MultiStateView extends FrameLayout {
     private View mLoadingView;
     private View mNetworkErrorView;
     private View mGeneralErrorView;
+    private View mPermissionErrorView;
     private OnClickListener mTapToRetryClickListener;
 
     public MultiStateView(Context context) {
@@ -68,6 +71,7 @@ public class MultiStateView extends FrameLayout {
             setLoadingLayoutResourceId(a.getResourceId(R.styleable.MultiStateView_msvLoadingLayout, R.layout.msv__loading));
             setGeneralErrorLayoutResourceId(a.getResourceId(R.styleable.MultiStateView_msvErrorUnknownLayout, R.layout.msv__error_unknown));
             setNetworkErrorLayoutResourceId(a.getResourceId(R.styleable.MultiStateView_msvErrorNetworkLayout, R.layout.msv__error_network));
+            setPermissionErrorLayoutResourceId(a.getResourceId(R.styleable.MultiStateView_msvErrorPermissionLayout, R.layout.msv__error_permission));
 
             String tmpString;
 
@@ -78,6 +82,14 @@ public class MultiStateView extends FrameLayout {
             }
 
             setNetworkErrorTitleString(tmpString);
+
+            tmpString = a.getString(R.styleable.MultiStateView_msvErrorTitlePermissionStringId);
+
+            if (tmpString == null) {
+                tmpString = context.getString(R.string.error_title_permission);
+            }
+
+            setPermissionErrorTitleString(tmpString);
 
             tmpString = a.getString(R.styleable.MultiStateView_msvErrorTitleUnknownStringId);
 
@@ -109,13 +121,27 @@ public class MultiStateView extends FrameLayout {
         mViewState.generalErrorLayoutResId = resourceId;
     }
 
+    private void setPermissionErrorLayoutResourceId(int resourceId) {
+        mViewState.permissionErrorLayoutResId = resourceId;
+    }
+
     private void setNetworkErrorTitleString(String string) {
         mViewState.networkErrorTitleString = string;
     }
 
+    private void setPermissionErrorTitleString(String string) {
+        mViewState.permissionErrorTitleString = string;
+    }
+
+
     public String getNetworkErrorTitleString() {
         return mViewState.networkErrorTitleString;
     }
+
+    public String getPermissionErrorTitleString() {
+        return mViewState.networkErrorTitleString;
+    }
+
 
     private void setGeneralErrorTitleString(String string) {
         mViewState.generalErrorTitleString = string;
@@ -237,7 +263,9 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    /** Dump the current state of the view. Requires {@link BuildConfig#DEBUG}. */
+    /**
+     * Dump the current state of the view. Requires {@link BuildConfig#DEBUG}.
+     */
     public void dumpState() {
         if (!BuildConfig.DEBUG) return;
 
@@ -255,6 +283,8 @@ public class MultiStateView extends FrameLayout {
                 state = ContentState.ERROR_GENERAL;
             } else if (child == mNetworkErrorView) {
                 state = ContentState.ERROR_NETWORK;
+            } else if (child == mPermissionErrorView) {
+                state = ContentState.ERROR_PERMISSION;
             } else if (child == mLoadingView) {
                 state = ContentState.LOADING;
             }
@@ -279,6 +309,9 @@ public class MultiStateView extends FrameLayout {
         switch (state) {
             case ERROR_NETWORK:
                 return getNetworkErrorView();
+
+            case ERROR_PERMISSION:
+                return getPermissionErrorView();
 
             case ERROR_GENERAL:
                 return getGeneralErrorView();
@@ -315,6 +348,29 @@ public class MultiStateView extends FrameLayout {
     }
 
     /**
+     * Returns the view to be displayed for the case of a network error
+     *
+     * @return
+     */
+    @NonNull
+    public View getPermissionErrorView() {
+        if (mPermissionErrorView == null) {
+            mPermissionErrorView = View.inflate(getContext(), mViewState.permissionErrorLayoutResId, null);
+            try {
+                ((TextView) mPermissionErrorView.findViewById(R.id.error_title)).setText(getPermissionErrorTitleString());
+                ((TextView) mPermissionErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }catch (Exception e){
+
+            }
+            mPermissionErrorView.setOnClickListener(mTapToRetryClickListener);
+
+            addView(mPermissionErrorView);
+        }
+
+        return mPermissionErrorView;
+    }
+
+    /**
      * Returns the view to be displayed for the case of an unknown error
      *
      * @return
@@ -323,9 +379,12 @@ public class MultiStateView extends FrameLayout {
     public View getGeneralErrorView() {
         if (mGeneralErrorView == null) {
             mGeneralErrorView = View.inflate(getContext(), mViewState.generalErrorLayoutResId, null);
+            try {
+                ((TextView) mGeneralErrorView.findViewById(R.id.error_title)).setText(getGeneralErrorTitleString());
+                ((TextView) mGeneralErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }catch (Exception e){
 
-            ((TextView) mGeneralErrorView.findViewById(R.id.error_title)).setText(getGeneralErrorTitleString());
-            ((TextView) mGeneralErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }
 
             mGeneralErrorView.setOnClickListener(mTapToRetryClickListener);
 
@@ -342,7 +401,6 @@ public class MultiStateView extends FrameLayout {
     public View getLoadingView() {
         if (mLoadingView == null) {
             mLoadingView = View.inflate(getContext(), mViewState.loadingLayoutResId, null);
-
             addView(mLoadingView);
         }
 
@@ -358,6 +416,10 @@ public class MultiStateView extends FrameLayout {
 
         if (mGeneralErrorView != null) {
             mGeneralErrorView.setOnClickListener(listener);
+        }
+
+        if (mPermissionErrorView != null) {
+            mPermissionErrorView.setOnClickListener(listener);
         }
     }
 
@@ -396,7 +458,7 @@ public class MultiStateView extends FrameLayout {
     }
 
     private boolean isViewInternal(View view) {
-        return view == mNetworkErrorView || view == mGeneralErrorView || view == mLoadingView;
+        return view == mNetworkErrorView || view == mGeneralErrorView || view == mLoadingView || view == mPermissionErrorView;
     }
 
     @Override
@@ -425,8 +487,10 @@ public class MultiStateView extends FrameLayout {
         setTapToRetryString(state.tapToRetryString);
         setGeneralErrorTitleString(state.generalErrorTitleString);
         setNetworkErrorTitleString(state.networkErrorTitleString);
+        setPermissionErrorTitleString(state.permissionErrorTitleString);
         setGeneralErrorLayoutResourceId(state.generalErrorLayoutResId);
         setNetworkErrorLayoutResourceId(state.networkErrorLayoutResId);
+        setPermissionErrorLayoutResourceId(state.permissionErrorLayoutResId);
         setLoadingLayoutResourceId(state.loadingLayoutResId);
         setCustomErrorString(state.customErrorString);
     }
@@ -499,11 +563,16 @@ public class MultiStateView extends FrameLayout {
          */
         ERROR_NETWORK(0x02),
         /**
-         * Used to indicate that the Unknown Error indication should be displayed to the user
+         * Used to indicate that the Permission Error indication should be displayed to the user
          *
          * @see R.attr#msvState
          */
-        ERROR_GENERAL(0x03);
+        ERROR_PERMISSION(0x03),
+        /**
+         * Used to indicate that the Unknown Error indication should be displayed to the user
+         *
+         */
+        ERROR_GENERAL(0x04);
 
         public final int nativeInt;
         private static final SparseArray<ContentState> sStates = new SparseArray<ContentState>();
@@ -561,8 +630,10 @@ public class MultiStateView extends FrameLayout {
         public int loadingLayoutResId;
         public int generalErrorLayoutResId;
         public int networkErrorLayoutResId;
+        public int permissionErrorLayoutResId;
         public String networkErrorTitleString;
         public String generalErrorTitleString;
+        public String permissionErrorTitleString;
         public String tapToRetryString;
         public ContentState state;
 
@@ -575,8 +646,10 @@ public class MultiStateView extends FrameLayout {
             loadingLayoutResId = in.readInt();
             generalErrorLayoutResId = in.readInt();
             networkErrorLayoutResId = in.readInt();
+            permissionErrorLayoutResId = in.readInt();
             networkErrorTitleString = in.readString();
             generalErrorTitleString = in.readString();
+            permissionErrorTitleString = in.readString();
             tapToRetryString = in.readString();
             state = ContentState.valueOf(in.readString());
         }
@@ -590,8 +663,10 @@ public class MultiStateView extends FrameLayout {
             dest.writeInt(loadingLayoutResId);
             dest.writeInt(generalErrorLayoutResId);
             dest.writeInt(networkErrorLayoutResId);
+            dest.writeInt(permissionErrorLayoutResId);
             dest.writeString(networkErrorTitleString);
             dest.writeString(generalErrorTitleString);
+            dest.writeString(permissionErrorTitleString);
             dest.writeString(tapToRetryString);
             dest.writeString(state.name());
         }

@@ -3,23 +3,26 @@
 
     <declare-styleable name="MultiStateView">
         <attr name="msvState">
-
             <!-- The state is to show the content -->
             <enum name="content" value="0x00" />
             <!-- The state is to show loading indication -->
             <enum name="loading" value="0x01" />
-            <!-- The state is to show loading indication -->
+            <!-- The state is to show error_network indication -->
             <enum name="error_network" value="0x02" />
-            <!-- The state is to show loading indication -->
-            <enum name="error_unknown" value="0x03" />
+            <!-- The state is to show error_permission indication -->
+            <enum name="error_permission" value="0x03" />
+            <!-- The state is to show error_unknown indication -->
+            <enum name="error_unknown" value="0x04" />
         </attr>
 
         <attr name="msvLoadingLayout" format="reference" />
         <attr name="msvErrorUnknownLayout" format="reference" />
         <attr name="msvErrorNetworkLayout" format="reference" />
+        <attr name="msvErrorPermissionLayout" format="reference" />
 
         <attr name="msvErrorTitleUnknownStringId" format="string" />
         <attr name="msvErrorTitleNetworkStringId" format="string" />
+        <attr name="msvErrorTitlePermissionStringId" format="string" />
         <attr name="msvErrorTapToRetryStringId" format="string" />
     </declare-styleable>
 
