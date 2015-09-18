@@ -3,6 +3,7 @@ apply plugin: 'com.jfrog.bintray'
 
 
 task androidJavadocs(type: Javadoc) {
+    failOnError false // add this line
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     allprojects {
