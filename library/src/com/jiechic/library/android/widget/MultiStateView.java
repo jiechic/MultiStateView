@@ -139,7 +139,7 @@ public class MultiStateView extends FrameLayout {
     }
 
     public String getPermissionErrorTitleString() {
-        return mViewState.networkErrorTitleString;
+        return mViewState.permissionErrorTitleString;
     }
 
 
