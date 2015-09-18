@@ -113,15 +113,15 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    private void setNetworkErrorLayoutResourceId(int resourceId) {
+    public void setNetworkErrorLayoutResourceId(int resourceId) {
         mViewState.networkErrorLayoutResId = resourceId;
     }
 
-    private void setGeneralErrorLayoutResourceId(int resourceId) {
+    public void setGeneralErrorLayoutResourceId(int resourceId) {
         mViewState.generalErrorLayoutResId = resourceId;
     }
 
-    private void setPermissionErrorLayoutResourceId(int resourceId) {
+    public void setPermissionErrorLayoutResourceId(int resourceId) {
         mViewState.permissionErrorLayoutResId = resourceId;
     }
 
