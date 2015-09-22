@@ -1,3 +1,6 @@
+
+Change For me , Add authority status
+
 # MultiStateView
 Handles multiple display states for data-centric views
 
@@ -9,6 +12,12 @@ The following shows examples (using default layouts) for **Loading**, **General 
 ![Loading state](screenshots/sample_loading.png)&nbsp;&nbsp;![General error state](screenshots/sample_general_error.png)
 
 ![Network error state](screenshots/sample_network_error.png)&nbsp;&nbsp;![Content state](screenshots/sample_content.png)
+
+## Import
+
+```groovy
+    compile 'com.jiechic.library:MultiStateView:0.0.2'
+```
 
 ## Usage
 
@@ -43,7 +52,7 @@ The following shows examples (using default layouts) for **Loading**, **General 
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-            <com.meetme.android.multistateview.MultiStateView
+            <com.jiechic.library.android.widget.MultiStateView
                 android:id="@+id/list_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -52,7 +61,7 @@ The following shows examples (using default layouts) for **Loading**, **General 
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent" />
 
-            </com.meetme.android.multistateview.MultiStateView>
+            </com.jiechic.library.android.widget.MultiStateView>
 
         </LinearLayout>
 ```
