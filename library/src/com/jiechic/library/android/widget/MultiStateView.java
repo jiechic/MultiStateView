@@ -14,8 +14,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.jiechic.library.BuildConfig;
-import com.jiechic.library.R;
+import com.jiechic.library.android.multistateview.BuildConfig;
+import com.jiechic.library.android.multistateview.R;
 
 import java.util.Locale;
 
