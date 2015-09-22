@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 setState(MultiStateView.ContentState.LOADING);
             }
         });
+        setStateText(MultiStateView.ContentState.LOADING);
+
     }
 
     @Override

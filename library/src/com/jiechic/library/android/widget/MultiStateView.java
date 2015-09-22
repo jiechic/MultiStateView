@@ -335,10 +335,12 @@ public class MultiStateView extends FrameLayout {
     public View getNetworkErrorView() {
         if (mNetworkErrorView == null) {
             mNetworkErrorView = View.inflate(getContext(), mViewState.networkErrorLayoutResId, null);
+            try {
+                ((TextView) mNetworkErrorView.findViewById(R.id.error_title)).setText(getNetworkErrorTitleString());
+                ((TextView) mNetworkErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }catch (Exception e){
 
-            ((TextView) mNetworkErrorView.findViewById(R.id.error_title)).setText(getNetworkErrorTitleString());
-            ((TextView) mNetworkErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
-
+            }
             mNetworkErrorView.setOnClickListener(mTapToRetryClickListener);
 
             addView(mNetworkErrorView);
